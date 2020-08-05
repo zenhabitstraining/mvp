@@ -6,6 +6,7 @@ import {
 } from "next-auth/client";
 
 import { Intro } from "@/components/Intro";
+import { Background } from "@/components/Background";
 // import { request } from "@/lib/graphql";
 
 interface User {
@@ -32,6 +33,7 @@ const Home: React.FC<Props> = ({ users }) => {
       </Head>
 
       {!session && <Intro />}
+      {session && <Background />}
     </>
   );
 };

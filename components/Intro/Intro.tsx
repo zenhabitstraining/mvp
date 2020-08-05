@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Video } from "../Video";
+import { Signup } from "./Signup";
 
 export const Intro = () => (
   <div className="wrapper">
@@ -37,6 +38,9 @@ export const Intro = () => (
       <strong>completely free</strong>. You’ll also be helping to contribute to
       our experiment to create an evidence-based method to train the mind.
     </p>
+
+    <h2 style={{ marginBottom: "10px" }}>Sign up</h2>
+    <Signup />
 
     <style jsx>{`
       .wrapper {
