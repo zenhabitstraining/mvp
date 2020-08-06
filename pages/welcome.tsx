@@ -1,12 +1,12 @@
-import { NextPageContext } from "next";
-import { useSession, getSession } from "next-auth/client";
+import { NextPageContext } from 'next';
+import { useSession, getSession } from 'next-auth/client';
 
-import { AccessDenied } from "@/components/AccessDenied";
+import { AccessDenied } from '@/components/AccessDenied';
 
 const Page = () => {
   const [session, loading] = useSession();
 
-  if (typeof window !== "undefined" && loading) return null;
+  if (typeof window !== 'undefined' && loading) return null;
 
   if (!session) return <AccessDenied />;
 

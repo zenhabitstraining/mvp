@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import { Video } from "../Video";
+import { Video } from '../Video';
 
 export const Background = () => (
   <div className="wrapper">
@@ -8,7 +8,7 @@ export const Background = () => (
       Welcome!
       <br /> Here’s How the Training Works
     </h1>
-    <Video src="https://vimeo.com/444051924/c12ac35f4c" />
+    <Video vimeoId="444051924" />
     <br />
     <br />
     <h2>Welcome in! We’re glad you joined us.</h2>

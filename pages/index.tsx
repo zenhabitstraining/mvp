@@ -1,12 +1,12 @@
-import React from "react";
-import Head from "next/head";
+import React from 'react';
+import Head from 'next/head';
 import {
   // signIn, signOut,
   useSession,
-} from "next-auth/client";
+} from 'next-auth/client';
 
-import { Intro } from "@/components/Intro";
-import { Background } from "@/components/Background";
+import { Intro } from '@/components/Intro';
+import { Background } from '@/components/Background';
 // import { request } from "@/lib/graphql";
 
 interface User {
@@ -22,8 +22,8 @@ const Home: React.FC<Props> = ({ users }) => {
   const [session, loading] = useSession();
 
   console.log(users);
-  console.log("loading", loading);
-  console.log("session", session);
+  console.log('loading', loading);
+  console.log('session', session);
 
   return (
     <>

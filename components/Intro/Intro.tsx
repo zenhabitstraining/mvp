@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react';
 
-import { Video } from "../Video";
-import { Signup } from "./Signup";
+import { Video } from '../Video';
+import { Signup } from './Signup';
 
 export const Intro = () => (
   <div className="wrapper">
     <h1>Welcome to the Mindfulness Protocol</h1>
     <p className="intro">
-      The new mindfulness training and experiment by{" "}
-      <strong>Leo Babauta</strong> of{" "}
+      The new mindfulness training and experiment by{' '}
+      <strong>Leo Babauta</strong> of{' '}
       <a href="https://https://zenhabits.net/">Zen Habits</a>.
     </p>
-    <Video src="https://player.vimeo.com/video/444049675" />
+    <Video vimeoId="444049675" />
     <br />
     <br />
     <h2>We invite you to join us!</h2>
@@ -34,12 +34,12 @@ export const Intro = () => (
       </li>
     </ul>
     <p>
-      It will only take 10 minutes a day, and it’s{" "}
+      It will only take 10 minutes a day, and it’s{' '}
       <strong>completely free</strong>. You’ll also be helping to contribute to
       our experiment to create an evidence-based method to train the mind.
     </p>
 
-    <h2 style={{ marginBottom: "10px" }}>Sign up</h2>
+    <h2 style={{ marginBottom: '10px' }}>Sign up</h2>
     <Signup />
 
     <style jsx>{`

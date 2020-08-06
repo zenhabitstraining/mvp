@@ -1,11 +1,11 @@
-import Head from "next/head";
-import type { AppProps } from "next/app";
-import { Provider } from "next-auth/client";
+import Head from 'next/head';
+import type { AppProps } from 'next/app';
+import { Provider } from 'next-auth/client';
 
 // Styles from node_modules
-import "normalize.css/normalize.css";
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-import "@blueprintjs/core/lib/css/blueprint.css";
+import 'normalize.css/normalize.css';
+import '@blueprintjs/icons/lib/css/blueprint-icons.css';
+import '@blueprintjs/core/lib/css/blueprint.css';
 
 const MindfulnessApp: React.FC<AppProps> = ({ Component, pageProps }) => (
   <>
@@ -27,8 +27,8 @@ const MindfulnessApp: React.FC<AppProps> = ({ Component, pageProps }) => (
     <style jsx>{`
       .page-wrapper {
         background-attachment: fixed;
-        font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont,
-          "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
+        font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont,
+          'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue',
           sans-serif;
         min-height: 100vh;
         padding-bottom: 30px;

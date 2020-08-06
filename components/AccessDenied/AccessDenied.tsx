@@ -1,5 +1,5 @@
-import React from "react";
-import { NonIdealState, Button } from "@blueprintjs/core";
+import React from 'react';
+import { NonIdealState, Button } from '@blueprintjs/core';
 
 export const AccessDenied = () => (
   <>

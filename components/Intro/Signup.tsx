@@ -1,11 +1,11 @@
-import React, { useState, ChangeEvent } from "react";
-import { InputGroup, FormGroup, ControlGroup, Button } from "@blueprintjs/core";
-import { signIn } from "next-auth/client";
+import React, { useState, ChangeEvent } from 'react';
+import { InputGroup, FormGroup, ControlGroup, Button } from '@blueprintjs/core';
+import { signIn } from 'next-auth/client';
 
-import { validateEmail } from "@/lib/validate-email";
+import { validateEmail } from '@/lib/validate-email';
 
 export const Signup = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const isEmailValid = validateEmail(email);
   const [isLoading, setLoadingState] = useState(false);
 
@@ -15,7 +15,7 @@ export const Signup = () => {
         e.preventDefault();
 
         if (isEmailValid) {
-          signIn("email", { email });
+          signIn('email', { email });
         }
       }}
     >
