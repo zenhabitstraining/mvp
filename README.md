@@ -5,7 +5,7 @@ Clone the repo and run `yarn` to install the dependencies.
 Run the development server:
 
 ```bash
-yarn dev
+./dev.sh
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

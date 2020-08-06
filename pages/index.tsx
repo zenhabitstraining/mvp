@@ -1,51 +1,51 @@
 import React from 'react';
 import Head from 'next/head';
-import {
-  // signIn, signOut,
-  useSession,
-} from 'next-auth/client';
+import { signOut, useSession } from 'next-auth/client';
 
+import { request } from '@/lib/graphql';
 import { Intro } from '@/components/Intro';
 import { Background } from '@/components/Background';
-// import { request } from "@/lib/graphql";
 
-interface User {
-  email: string;
-  name: string;
-}
-
-interface Props {
-  users: User[];
-}
-
-const Home: React.FC<Props> = ({ users }) => {
+const Home = () => {
   const [session, loading] = useSession();
 
-  console.log(users);
-  console.log('loading', loading);
-  console.log('session', session);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
       <Head>
-        <title>Mindfulness Revolutionized</title>
+        <title>The Zen Habits Protocol</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       {!session && <Intro />}
-      {session && <Background />}
+      {session && <Background session={session} />}
+
+      {session && (
+        <footer>
+          <a
+            href="#logout"
+            onClick={(e) => {
+              e.preventDefault();
+              signOut();
+            }}
+          >
+            Log out
+          </a>
+        </footer>
+      )}
+
+      <style jsx>{`
+        footer {
+          padding: 40px 0 10px;
+          text-align: center;
+        }
+      `}</style>
     </>
   );
 };
-
-// const HOMEPAGE_QUERY = `
-//   query Users {
-//     users {
-//       email
-//       name
-//     }
-//   }
-// `;
 
 // export const getServerSideProps = async () => {
 //   const data = await request({ query: HOMEPAGE_QUERY });

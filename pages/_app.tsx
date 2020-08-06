@@ -31,7 +31,6 @@ const MindfulnessApp: React.FC<AppProps> = ({ Component, pageProps }) => (
           'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue',
           sans-serif;
         min-height: 100vh;
-        padding-bottom: 30px;
       }
 
       .content-wrapper {

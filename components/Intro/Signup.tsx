@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import { InputGroup, FormGroup, ControlGroup, Button } from '@blueprintjs/core';
 import { signIn } from 'next-auth/client';
 
@@ -14,8 +14,16 @@ export const Signup = () => {
       onSubmit={(e) => {
         e.preventDefault();
 
-        if (isEmailValid) {
+        if (!isEmailValid) {
+          return;
+        }
+
+        try {
+          setLoadingState(true);
           signIn('email', { email });
+        } catch {
+        } finally {
+          setLoadingState(false);
         }
       }}
     >
@@ -33,13 +41,7 @@ export const Signup = () => {
             large
             value={email}
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
-              try {
-                setLoadingState(true);
-                setEmail(e.currentTarget.value);
-              } catch {
-              } finally {
-                setLoadingState(false);
-              }
+              setEmail(e.currentTarget.value);
             }}
           />
           <Button
