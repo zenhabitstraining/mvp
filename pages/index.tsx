@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NextPageContext } from 'next';
 import Head from 'next/head';
 import { signOut, useSession, getSession } from 'next-auth/client';
@@ -9,6 +9,8 @@ import { Background } from '@/components/Background';
 import { getUserFromRes } from '@/lib/get-user-from-res';
 import { User } from 'types/user';
 import { UserParts } from '@/lib/user-parts';
+import { PreAssessment } from '@/components/PreAssessment';
+import { Pending } from '@/components/Pending';
 
 interface Props {
   user: User | null;
@@ -17,6 +19,10 @@ interface Props {
 const Home: React.FC<Props> = ({ user: serverUser }) => {
   const [session, isLoadingSession] = useSession();
   const [user, setUser] = useState<User | null>(serverUser);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [user]);
 
   if (isLoadingSession || (session && !user)) {
     return <div>Loading...</div>;
@@ -31,7 +37,10 @@ const Home: React.FC<Props> = ({ user: serverUser }) => {
 
       {!user && <Intro />}
       {user && !user.stage && <Background user={user} setUser={setUser} />}
-      {user && user.stage === 'pre-assessment' && <div>pre-assessment</div>}
+      {user && user.stage === 'pre-assessment' && (
+        <PreAssessment user={user} setUser={setUser} />
+      )}
+      {user && user.stage === 'pre-assessment-complete' && <Pending />}
 
       {user && (
         <footer>

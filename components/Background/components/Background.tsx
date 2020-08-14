@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import NProgress from 'nprogress';
 import {
   InputGroup,
   FormGroup,
@@ -6,7 +7,6 @@ import {
   Tooltip,
   Position,
 } from '@blueprintjs/core';
-import { signOut } from 'next-auth/client';
 
 import { request } from '@/lib/graphql';
 import { Video } from '../../Video';
@@ -56,6 +56,7 @@ export const Background: React.FC<Props> = ({ user, setUser }) => {
             return;
           }
 
+          NProgress.start();
           try {
             const res = await request({
               query: UPDATE_USER,
@@ -79,6 +80,8 @@ export const Background: React.FC<Props> = ({ user, setUser }) => {
           } catch (e) {
             console.error(e);
             alert('There was an error. Please check the console log.');
+          } finally {
+            NProgress.done();
           }
         }}
       >
@@ -131,11 +134,6 @@ export const Background: React.FC<Props> = ({ user, setUser }) => {
 
         h1 {
           text-align: center;
-        }
-
-        .intro {
-          text-align: center;
-          margin-bottom: 30px;
         }
 
         form {

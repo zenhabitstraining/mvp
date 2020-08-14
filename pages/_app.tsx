@@ -6,6 +6,7 @@ import { Provider } from 'next-auth/client';
 import 'normalize.css/normalize.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
+import 'nprogress/nprogress.css';
 
 const MindfulnessApp: React.FC<AppProps> = ({ Component, pageProps }) => (
   <>
