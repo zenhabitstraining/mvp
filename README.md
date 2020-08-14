@@ -23,6 +23,4 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Heroku
 
-```bash
-git push heroku master
-```
+Deployment to production is automatic when code is pushed to `master`.
