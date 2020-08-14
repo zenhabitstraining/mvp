@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { NextPageContext } from 'next';
 import Head from 'next/head';
-import { signOut, useSession } from 'next-auth/client';
+import { signOut, useSession, getSession } from 'next-auth/client';
 
 import { request } from '@/lib/graphql';
 import { Intro } from '@/components/Intro';
 import { Background } from '@/components/Background';
+import { getUserFromRes } from '@/lib/get-user-from-res';
+import { User } from 'types/user';
+import { UserParts } from '@/lib/user-parts';
 
-const Home = () => {
-  const [session, loading] = useSession();
+interface Props {
+  user: User | null;
+}
 
-  if (loading) {
+const Home: React.FC<Props> = ({ user: serverUser }) => {
+  const [session, isLoadingSession] = useSession();
+  const [user, setUser] = useState<User | null>(serverUser);
+
+  if (isLoadingSession || (session && !user)) {
     return <div>Loading...</div>;
   }
 
@@ -20,10 +29,11 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {!session && <Intro />}
-      {session && <Background session={session} />}
+      {!user && <Intro />}
+      {user && !user.stage && <Background user={user} setUser={setUser} />}
+      {user && user.stage === 'pre-assessment' && <div>pre-assessment</div>}
 
-      {session && (
+      {user && (
         <footer>
           <a
             href="#logout"
@@ -47,9 +57,25 @@ const Home = () => {
   );
 };
 
-// export const getServerSideProps = async () => {
-//   const data = await request({ query: HOMEPAGE_QUERY });
-//   return { props: { users: data.users } };
-// };
+export const getServerSideProps = async (context: NextPageContext) => {
+  const session = await getSession(context);
+  if (session) {
+    const res = await request({
+      query: FETCH_USER,
+      variables: { email: session.user.email },
+    });
+    const user = getUserFromRes(res);
+    return { props: { user } };
+  }
+  return { props: { user: null } };
+};
+
+const FETCH_USER = `
+  query FetchUser($email: String!) {
+    users(where: { email: { _eq: $email } } ) {
+      ${UserParts}
+    }
+  }
+`;
 
 export default Home;

@@ -7,7 +7,7 @@ const options = {
   providers: [
     Providers.Email({
       server: {
-        host: 'smtp.eu.mailgun.org',
+        host: 'smtp.mailgun.org',
         port: 587,
         auth: {
           user: process.env.EMAIL_USERNAME,
