@@ -3,7 +3,7 @@ import React from 'react';
 export const Pending = () => {
   return (
     <div className="wrapper">
-      <h1>Thank-you!</h1>
+      <h1>Thank you!</h1>
       <br />
       <p>We're just finalizing the protocol.</p>
       <br />
