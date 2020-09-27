@@ -9,4 +9,5 @@ export const UserParts = `
   stage
   group
   latest_session
+  interval_goal
 `;

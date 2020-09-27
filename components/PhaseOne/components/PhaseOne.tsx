@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { User } from '@/types/user';
-import { Group } from '@/constants/group-keys';
+import { Group } from '@/constants/groups';
 import { GroupA } from './GroupA';
 import { GroupB } from './GroupB';
 import { GroupC } from './GroupC';

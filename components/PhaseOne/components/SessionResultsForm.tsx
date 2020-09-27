@@ -9,10 +9,11 @@ import {
 } from '@blueprintjs/core';
 
 import { User } from '@/types/user';
-import { request } from '@/lib/graphql';
-import { getUserFromRes } from '@/lib/get-user-from-res';
-import { today } from '@/constants/datetime';
 import { UserParts } from '@/lib/user-parts';
+import { calculateIntervalGoal } from '@/constants/groups';
+import { getUserFromRes } from '@/lib/get-user-from-res';
+import { request } from '@/lib/graphql';
+import { today } from '@/constants/datetime';
 
 interface Props {
   isIntervalsVisible?: boolean;
@@ -37,6 +38,9 @@ export const SessionResultsForm: React.FC<Props> = (props) => {
           setIsLoading(true);
           NProgress.start();
           try {
+            const intervalGoal = user.interval_goal
+              ? calculateIntervalGoal(user.interval_goal, numIntervals)
+              : null;
             const res = await request({
               query: INSERT_SESSION_RESULT,
               variables: {
@@ -47,6 +51,7 @@ export const SessionResultsForm: React.FC<Props> = (props) => {
                 questions: e.currentTarget.questions.value,
                 why: e.currentTarget.why?.value,
                 latestSession: today,
+                intervalGoal,
               },
             });
             const _user = getUserFromRes(res, true); // isUpdate=true
@@ -132,13 +137,13 @@ export const SessionResultsForm: React.FC<Props> = (props) => {
 
 // Insert the session result for this user
 const INSERT_SESSION_RESULT = `
-  mutation InsertSessionResult($userId: Int! $numIntervals: Int! $observations: String! $difficulties: String! $questions: String! $why: String $latestSession: String!) {
+  mutation InsertSessionResult($userId: Int! $numIntervals: Int! $observations: String! $difficulties: String! $questions: String! $why: String $latestSession: String! $intervalGoal: Int) {
     insert_session_results(objects: {user_id: $userId, num_intervals: $numIntervals, observations: $observations, difficulties: $difficulties, why: $why, questions: $questions}) {
       returning {
         id
       }
     }
-    update_users(where: {id: { _eq: $userId }}, _set: {latest_session: $latestSession}) {
+    update_users(where: {id: { _eq: $userId }}, _set: {latest_session: $latestSession, interval_goal: $intervalGoal}) {
       returning {
         ${UserParts}
       }

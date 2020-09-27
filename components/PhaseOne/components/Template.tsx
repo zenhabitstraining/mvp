@@ -40,12 +40,25 @@ export const Template: React.FC<Props> = (props) => {
           Thank you for training! Come back tomorrow to try again.
         </Callout>
       ) : (
-        <SessionResultsForm
-          isIntervalsVisible={isIntervalsVisible}
-          isWhyVisible={isWhyVisible}
-          setUser={setUser}
-          user={user}
-        />
+        <>
+          {user.interval_goal && (
+            <Callout intent="primary" title="Interval breath maximum">
+              Once you get to{' '}
+              <strong style={{ fontWeight: 700 }}>
+                {user.interval_goal} breaths
+              </strong>
+              , take a small break and start counting again at 1. This number
+              will change as you progress, so please make sure to check it at
+              the start of each session.
+            </Callout>
+          )}
+          <SessionResultsForm
+            isIntervalsVisible={isIntervalsVisible}
+            isWhyVisible={isWhyVisible}
+            setUser={setUser}
+            user={user}
+          />
+        </>
       )}
 
       <style jsx>{`

@@ -1,4 +1,4 @@
-import { Group } from '@/constants/group-keys';
+import { Group } from '@/constants/groups';
 import { Stage } from '@/constants/stages';
 
 export interface User {
@@ -11,4 +11,5 @@ export interface User {
   stage: Stage | null;
   group: Group | null;
   latest_session: string | null;
+  interval_goal: number | null;
 }

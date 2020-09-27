@@ -5,7 +5,7 @@ import NProgress from 'nprogress';
 import { User } from '@/types/user';
 import { UserParts } from '@/lib/user-parts';
 import { getUserFromRes } from '@/lib/get-user-from-res';
-import { groupKeys } from '@/constants/group-keys';
+import { groupKeys, groupsWithIntervalGoal } from '@/constants/groups';
 import { request } from '@/lib/graphql';
 import { stages } from '@/constants/stages';
 
@@ -21,6 +21,9 @@ export const Pending: React.FC<Props> = ({ user, setUser }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const randomGroup = groupKeys[randomInt(groupKeys.length - 1)];
+
+  // Certain groups have an interval breath goal to reach
+  const intervalGoal = groupsWithIntervalGoal.includes(randomGroup) ? 3 : null;
 
   return (
     <div className="wrapper">
@@ -39,7 +42,7 @@ export const Pending: React.FC<Props> = ({ user, setUser }) => {
           try {
             const res = await request({
               query: ADD_USER_TO_GROUP,
-              variables: { id: user.id, group: randomGroup },
+              variables: { id: user.id, group: randomGroup, intervalGoal },
             });
             const _user = getUserFromRes(res, true); // isUpdate=true
             if (!_user) {
@@ -88,8 +91,8 @@ export const Pending: React.FC<Props> = ({ user, setUser }) => {
 
 // Add the user to a random meditation group
 const ADD_USER_TO_GROUP = `
-  mutation AddUserToGroup($id: Int! $group: String!) {
-    update_users(where: {id: {_eq: $id}}, _set: {stage: "${stages.phaseOne}", group: $group}) {
+  mutation AddUserToGroup($id: Int! $group: String! $intervalGoal: Int) {
+    update_users(where: {id: {_eq: $id}}, _set: {stage: "${stages.phaseOne}", group: $group, interval_goal: $intervalGoal}) {
       returning {
         ${UserParts}
       }
