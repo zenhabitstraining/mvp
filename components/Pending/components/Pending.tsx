@@ -1,13 +1,31 @@
 import React from 'react';
+import { Button } from '@blueprintjs/core';
+
+const randomInt = (max: number, min: number = 0) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
+const groupKeys = ['A', 'B', 'C', 'D', 'E'];
 
 export const Pending = () => {
+  const randomGroup = groupKeys[randomInt(groupKeys.length - 1)];
+
   return (
     <div className="wrapper">
       <h1>Thank you!</h1>
       <br />
-      <p>We're just finalizing the protocol.</p>
+      <p>Click the button below to view your first session.</p>
       <br />
-      <p>We'll send you an email the program is ready for you to start.</p>
+      <Button
+        intent="primary"
+        large
+        onClick={() => {
+          alert('group ' + randomGroup);
+        }}
+      >
+        Start session
+      </Button>
+      <br />
+      <br />
+      <br />
 
       <style jsx>{`
         .wrapper {
@@ -15,10 +33,14 @@ export const Pending = () => {
         }
 
         h1 {
-          text-align: center;
+          margin-bottom: 10px;
         }
 
         p {
+          margin-bottom: 20px;
+        }
+
+        div {
           text-align: center;
         }
       `}</style>
