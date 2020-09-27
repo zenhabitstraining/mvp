@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import NProgress from 'nprogress';
 import {
-  InputGroup,
-  FormGroup,
   Button,
-  Tooltip,
+  FormGroup,
+  InputGroup,
   Position,
+  Tooltip,
 } from '@blueprintjs/core';
 
-import { request } from '@/lib/graphql';
-import { Video } from '../../Video';
-import { PreviousExperienceInput } from './PreviousExperienceInput';
 import { BenefitsCheckboxes } from './BenefitsCheckboxes';
 import { CommitmentInput } from './CommitmentDeclaration';
-import { User } from 'types/user';
-import { getUserFromRes } from '@/lib/get-user-from-res';
+import { PreviousExperienceInput } from './PreviousExperienceInput';
+import { User } from '@/types/user';
 import { UserParts } from '@/lib/user-parts';
+import { Video } from '@/components/Video';
+import { getUserFromRes } from '@/lib/get-user-from-res';
+import { request } from '@/lib/graphql';
+import { stages } from '@/constants/stages';
 
 interface Props {
   user: User;
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export const Background: React.FC<Props> = ({ user, setUser }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState('');
   const [benefits, setBenefits] = useState<string[]>([]);
 
@@ -56,6 +58,7 @@ export const Background: React.FC<Props> = ({ user, setUser }) => {
             return;
           }
 
+          setIsLoading(true);
           NProgress.start();
           try {
             const res = await request({
@@ -82,6 +85,7 @@ export const Background: React.FC<Props> = ({ user, setUser }) => {
             alert('There was an error. Please check the console log.');
           } finally {
             NProgress.done();
+            setIsLoading(false);
           }
         }}
       >
@@ -116,9 +120,10 @@ export const Background: React.FC<Props> = ({ user, setUser }) => {
           disabled={isFormValid}
         >
           <Button
-            disabled={!isFormValid}
+            disabled={!isFormValid || isLoading}
             intent="primary"
             large
+            loading={isLoading}
             rightIcon="arrow-right"
             type="submit"
           >
@@ -147,7 +152,7 @@ export const Background: React.FC<Props> = ({ user, setUser }) => {
 // Update the user values for this stage and set the "stage" to "pre-assessment"
 const UPDATE_USER = `
   mutation UpdateUser($email: String! $name: String! $previousExperience: String! $benefits: String! $commitment: String!) {
-    update_users(where: {email: { _eq: $email }}, _set: {name: $name, previous_experience: $previousExperience, benefits: $benefits, commitment: $commitment, stage: "pre-assessment"}) {
+    update_users(where: {email: { _eq: $email }}, _set: {name: $name, previous_experience: $previousExperience, benefits: $benefits, commitment: $commitment, stage: "${stages.preAssessment}"}) {
       returning {
         ${UserParts}
       }

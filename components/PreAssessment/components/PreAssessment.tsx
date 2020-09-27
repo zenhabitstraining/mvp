@@ -9,11 +9,12 @@ import {
   Callout,
 } from '@blueprintjs/core';
 
-import { request } from '@/lib/graphql';
-import { Video } from '../../Video';
-import { User } from 'types/user';
-import { getUserFromRes } from '@/lib/get-user-from-res';
+import { User } from '@/types/user';
 import { UserParts } from '@/lib/user-parts';
+import { Video } from '../../Video';
+import { getUserFromRes } from '@/lib/get-user-from-res';
+import { request } from '@/lib/graphql';
+import { stages } from '@/constants/stages';
 
 interface Props {
   user: User;
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export const PreAssessment: React.FC<Props> = ({ user, setUser }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [roundOne, setRoundOne] = useState(0);
   const [roundTwo, setRoundTwo] = useState(0);
   const [roundThree, setRoundThree] = useState(0);
@@ -46,6 +48,7 @@ export const PreAssessment: React.FC<Props> = ({ user, setUser }) => {
         onSubmit={async (e) => {
           e.preventDefault();
 
+          setIsLoading(true);
           NProgress.start();
           try {
             const res = await request({
@@ -73,6 +76,7 @@ export const PreAssessment: React.FC<Props> = ({ user, setUser }) => {
             alert('There was an error. Please check the console log.');
           } finally {
             NProgress.done();
+            setIsLoading(false);
           }
         }}
       >
@@ -132,7 +136,14 @@ export const PreAssessment: React.FC<Props> = ({ user, setUser }) => {
         >
           <InputGroup id="questions" name="questions" large />
         </FormGroup>
-        <Button intent="primary" large rightIcon="arrow-right" type="submit">
+        <Button
+          disabled={isLoading}
+          intent="primary"
+          large
+          loading={isLoading}
+          rightIcon="arrow-right"
+          type="submit"
+        >
           Save and next
         </Button>
       </form>
@@ -162,7 +173,7 @@ const INSERT_PRE_ASSESSMENT = `
         id
       }
     }
-    update_users(where: {id: {_eq: $id}}, _set: {stage: "pre-assessment-complete"}) {
+    update_users(where: {id: {_eq: $id}}, _set: {stage: "${stages.preAssessmentComplete}"}) {
       returning {
         ${UserParts}
       }

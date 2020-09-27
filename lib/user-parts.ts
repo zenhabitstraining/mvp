@@ -7,4 +7,6 @@ export const UserParts = `
   commitment
   previous_experience
   stage
+  group
+  latest_session
 `;

@@ -16,7 +16,10 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["components/*"],
-      "@/lib/*": ["lib/*"]
+      "@/constants/*": ["constants/*"],
+      "@/lib/*": ["lib/*"],
+      "@/sessions/*": ["sessions/*"],
+      "@/types/*": ["types/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

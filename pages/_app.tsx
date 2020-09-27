@@ -38,7 +38,7 @@ const MindfulnessApp: React.FC<AppProps> = ({ Component, pageProps }) => (
         background-color: rgba(245, 248, 250, 0.6);
         border-radius: 5px;
         margin: 0 auto;
-        max-width: 660px;
+        max-width: 700px;
         padding: 20px;
       }
     `}</style>
@@ -54,14 +54,24 @@ const MindfulnessApp: React.FC<AppProps> = ({ Component, pageProps }) => (
         font-size: 27px;
       }
 
+      h3 {
+        font-weight: 300;
+        font-size: 22px;
+      }
+
       p,
-      ul {
+      ul,
+      ol {
         font-weight: 300;
         font-size: 18px;
       }
 
       strong {
         font-weight: 400;
+      }
+
+      .bp3-callout .bp3-heading:last-child {
+        margin-bottom: 5px !important;
       }
     `}</style>
   </>

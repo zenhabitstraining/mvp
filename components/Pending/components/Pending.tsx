@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@blueprintjs/core';
+import NProgress from 'nprogress';
+
+import { User } from '@/types/user';
+import { UserParts } from '@/lib/user-parts';
+import { getUserFromRes } from '@/lib/get-user-from-res';
+import { groupKeys } from '@/constants/group-keys';
+import { request } from '@/lib/graphql';
+import { stages } from '@/constants/stages';
 
 const randomInt = (max: number, min: number = 0) =>
   Math.floor(Math.random() * (max - min + 1) + min);
-const groupKeys = ['A', 'B', 'C', 'D', 'E'];
 
-export const Pending = () => {
+interface Props {
+  user: User;
+  setUser: (user: User) => void;
+}
+
+export const Pending: React.FC<Props> = ({ user, setUser }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const randomGroup = groupKeys[randomInt(groupKeys.length - 1)];
 
   return (
@@ -15,10 +29,34 @@ export const Pending = () => {
       <p>Click the button below to view your first session.</p>
       <br />
       <Button
+        disabled={isLoading}
         intent="primary"
         large
-        onClick={() => {
-          alert('group ' + randomGroup);
+        loading={isLoading}
+        onClick={async () => {
+          setIsLoading(true);
+          NProgress.start();
+          try {
+            const res = await request({
+              query: ADD_USER_TO_GROUP,
+              variables: { id: user.id, group: randomGroup },
+            });
+            const _user = getUserFromRes(res, true); // isUpdate=true
+            if (!_user) {
+              throw new Error(
+                `No valid user returned from request. Here is response string: ${JSON.stringify(
+                  res,
+                )}`,
+              );
+            }
+            setUser(_user);
+          } catch (e) {
+            console.error(e);
+            alert('There was an error. Please check the console log.');
+          } finally {
+            NProgress.done();
+            setIsLoading(false);
+          }
         }}
       >
         Start session
@@ -47,3 +85,14 @@ export const Pending = () => {
     </div>
   );
 };
+
+// Add the user to a random meditation group
+const ADD_USER_TO_GROUP = `
+  mutation AddUserToGroup($id: Int! $group: String!) {
+    update_users(where: {id: {_eq: $id}}, _set: {stage: "${stages.phaseOne}", group: $group}) {
+      returning {
+        ${UserParts}
+      }
+    }
+  }
+`;

@@ -1,4 +1,4 @@
-import { User } from 'types/user';
+import { User } from '@/types/user';
 
 // Simple helper to get the user from the graphql response
 export const getUserFromRes = (res: any, isUpdate?: boolean): User | null => {

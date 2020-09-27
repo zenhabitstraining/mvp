@@ -11,7 +11,7 @@ export const Signup = () => {
 
   return (
     <form
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
 
         if (!isEmailValid) {
@@ -20,7 +20,7 @@ export const Signup = () => {
 
         try {
           setLoadingState(true);
-          signIn('email', { email });
+          await signIn('email', { email });
         } catch {
         } finally {
           setLoadingState(false);

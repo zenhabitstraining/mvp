@@ -2,6 +2,14 @@
 
 Clone the repo and run `yarn` to install the dependencies.
 
+Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) if you don't have it (for mac os):
+
+```base
+brew tap heroku/brew && brew install heroku
+```
+
+Then login with `heroku login` if not prompted.
+
 Run the development server:
 
 ```bash

@@ -7,10 +7,12 @@ import { request } from '@/lib/graphql';
 import { Intro } from '@/components/Intro';
 import { Background } from '@/components/Background';
 import { getUserFromRes } from '@/lib/get-user-from-res';
-import { User } from 'types/user';
+import { User } from '@/types/user';
 import { UserParts } from '@/lib/user-parts';
 import { PreAssessment } from '@/components/PreAssessment';
 import { Pending } from '@/components/Pending';
+import { stages } from 'constants/stages';
+import { PhaseOne } from '@/components/PhaseOne';
 
 interface Props {
   user: User | null;
@@ -37,10 +39,15 @@ const Home: React.FC<Props> = ({ user: serverUser }) => {
 
       {!user && <Intro />}
       {user && !user.stage && <Background user={user} setUser={setUser} />}
-      {user && user.stage === 'pre-assessment' && (
+      {user && user.stage === stages.preAssessment && (
         <PreAssessment user={user} setUser={setUser} />
       )}
-      {user && user.stage === 'pre-assessment-complete' && <Pending />}
+      {user && user.stage === stages.preAssessmentComplete && (
+        <Pending user={user} setUser={setUser} />
+      )}
+      {user && user.stage === stages.phaseOne && (
+        <PhaseOne user={user} setUser={setUser} />
+      )}
 
       {user && (
         <footer>
